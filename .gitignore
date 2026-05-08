@@ -30,3 +30,6 @@ npm-debug.log*
 # Sanity Studio (its own builds & local env)
 studio/dist/
 studio/.sanity/
+
+# Pristine backups created by scripts/watermark.mjs
+public/_originals/

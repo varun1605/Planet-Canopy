@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Planet Canopy — Website Owner's Guide</title>
+<style>
+  /* ---------- Page setup ---------- */
+  @page {
+    size: A4;
+    margin: 22mm 18mm 22mm 18mm;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #1f2933;
+    font-family: Georgia, "Cormorant Garamond", "Times New Roman", serif;
+    font-size: 11.5pt;
+    line-height: 1.55;
+  }
+  body { padding: 0 4mm; }
+
+  /* ---------- Typography ---------- */
+  h1, h2, h3, h4 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    margin: 0;
+  }
+  h1 {
+    font-size: 32pt;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.3em;
+  }
+  h2 {
+    font-size: 18pt;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 1.4em 0 0.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 1.5px solid #b89968;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 13pt;
+    font-weight: 600;
+    margin: 1.1em 0 0.4em;
+    color: #0f172a;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11.5pt;
+    font-weight: 700;
+    margin: 0.9em 0 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #475569;
+  }
+  p { margin: 0 0 0.8em; }
+  ul, ol { padding-left: 1.4em; margin: 0.4em 0 0.9em; }
+  li { margin-bottom: 0.35em; }
+  strong { font-weight: 600; }
+  em { font-style: italic; color: #334155; }
+  code {
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.92em;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: #0f172a;
+  }
+  a { color: #b89968; text-decoration: none; }
+
+  /* ---------- Tables ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6em 0 1.1em;
+    font-size: 10.5pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 7px 10px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  th {
+    background: #f8fafc;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 9.5pt;
+    letter-spacing: 0.03em;
+    color: #475569;
+  }
+
+  /* ---------- Callouts ---------- */
+  .tip, .warn, .note {
+    border-left: 3px solid;
+    padding: 8px 14px;
+    margin: 0.8em 0 1em;
+    border-radius: 0 4px 4px 0;
+    font-size: 11pt;
+    page-break-inside: avoid;
+  }
+  .tip  { border-color: #16a34a; background: #f0fdf4; }
+  .warn { border-color: #dc2626; background: #fef2f2; }
+  .note { border-color: #b89968; background: #faf6ee; }
+  .tip  strong, .warn strong, .note strong {
+    font-family: "Helvetica Neue", sans-serif;
+    text-transform: uppercase;
+    font-size: 9.5pt;
+    letter-spacing: 0.07em;
+    color: #475569;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Layout helpers ---------- */
+  .page-break { page-break-before: always; }
+  .keep-together { page-break-inside: avoid; }
+  .small { font-size: 10pt; color: #64748b; }
+  .center { text-align: center; }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 12vh;
+    height: 78vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cover .brand {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 28pt;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #0f172a;
+    font-weight: 300;
+  }
+  .cover .title {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 26pt;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #b89968;
+    margin-top: 1.5em;
+  }
+  .cover .subtitle {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 14pt;
+    color: #475569;
+    margin-top: 0.8em;
+  }
+  .cover .footer {
+    font-size: 10pt;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1em;
+  }
+
+  /* ---------- TOC ---------- */
+  .toc {
+    margin-top: 1.4em;
+    page-break-after: always;
+  }
+  .toc ol { list-style: none; padding-left: 0; }
+  .toc li {
+    border-bottom: 1px dotted #cbd5e1;
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 11pt;
+  }
+  .toc li .num {
+    color: #b89968;
+    font-weight: 600;
+    margin-right: 0.8em;
+  }
+  .toc li .pg {
+    color: #64748b;
+  }
+
+  /* ---------- Step list ---------- */
+  ol.steps { list-style: none; padding-left: 0; counter-reset: step; }
+  ol.steps > li {
+    position: relative;
+    padding-left: 42px;
+    margin-bottom: 14px;
+    counter-increment: step;
+    page-break-inside: avoid;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 28px;
+    height: 28px;
+    background: #b89968;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+  }
+
+  /* ---------- Print ---------- */
+  @media print {
+    a { color: inherit; text-decoration: none; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================== -->
+<!-- COVER                                                           -->
+<!-- ============================================================== -->
+<section class="cover">
+  <div>
+    <div class="brand">Planet Canopy</div>
+    <div class="title">Website Owner's Guide</div>
+    <div class="subtitle">Everything you need to manage your website's content, customer enquiries, and day-to-day operations.</div>
+  </div>
+  <div class="footer">
+    Prepared for the owner of <strong>theplanetcanopy1@gmail.com</strong><br>
+    Version 1.0
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- TABLE OF CONTENTS                                               -->
+<!-- ============================================================== -->
+<section class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><span><span class="num">1</span> Welcome &amp; what this guide covers</span><span class="pg">3</span></li>
+    <li><span><span class="num">2</span> The two tools you'll use every week</span><span class="pg">3</span></li>
+    <li><span><span class="num">3</span> Logging in to your content dashboard</span><span class="pg">4</span></li>
+    <li><span><span class="num">4</span> The dashboard at a glance</span><span class="pg">5</span></li>
+    <li><span><span class="num">5</span> Managing your safari tours (Journeys)</span><span class="pg">6</span></li>
+    <li><span><span class="num">6</span> Handling customer enquiries</span><span class="pg">9</span></li>
+    <li><span><span class="num">7</span> Adding &amp; cropping images</span><span class="pg">11</span></li>
+    <li><span><span class="num">8</span> Email notifications</span><span class="pg">12</span></li>
+    <li><span><span class="num">9</span> Things to be careful about</span><span class="pg">13</span></li>
+    <li><span><span class="num">10</span> Troubleshooting</span><span class="pg">14</span></li>
+    <li><span><span class="num">11</span> When to call your developer</span><span class="pg">15</span></li>
+  </ol>
+</section>
+
+<!-- ============================================================== -->
+<!-- 1. WELCOME                                                      -->
+<!-- ============================================================== -->
+<h2>1. Welcome &amp; what this guide covers</h2>
+
+<p>Welcome — your website is live, and from this point onwards <strong>you</strong> are in charge of its content. This guide explains exactly how to:</p>
+
+<ul>
+  <li>Add a new safari tour to your homepage</li>
+  <li>Update prices, dates, or descriptions of existing tours</li>
+  <li>See and respond to customer enquiries the moment they arrive</li>
+  <li>Upload, crop, and manage photographs</li>
+  <li>Avoid the few things that could cause problems</li>
+</ul>
+
+<p>You don't need any technical or coding skills. Everything happens through a friendly visual editor in your browser, similar to writing a Google Doc.</p>
+
+<div class="tip">
+  <strong>How long will this take to learn?</strong>
+  Most owners are completely confident with the dashboard within 30–45 minutes. After that, you'll only need to refer back to this guide for occasional questions.
+</div>
+
+<!-- ============================================================== -->
+<!-- 2. TWO TOOLS                                                    -->
+<!-- ============================================================== -->
+<h2>2. The two tools you'll use every week</h2>
+
+<p>Your website's daily operation revolves around just two tools:</p>
+
+<table>
+  <thead>
+    <tr><th style="width:24%">Tool</th><th>What it's for</th><th style="width:24%">How often you'll use it</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sanity Studio</strong><br><span class="small">your content dashboard</span></td>
+      <td>Add/edit safari tours. Read and follow up on customer enquiries. Upload photos. Update text on the website.</td>
+      <td>Whenever you have a tour to update or an enquiry to handle.</td>
+    </tr>
+    <tr>
+      <td><strong>Your email inbox</strong><br><span class="small">theplanetcanopy1@gmail.com</span></td>
+      <td>Receives a notification email <em>every time</em> a customer submits the booking form on your website.</td>
+      <td>Real-time — emails arrive within seconds of a customer submitting.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That's the entire stack you need to know. Everything else (hosting, the website code, the email sending service) runs in the background — you don't have to think about it.</p>
+
+<!-- ============================================================== -->
+<!-- 3. LOGGING IN                                                   -->
+<!-- ============================================================== -->
+<h2>3. Logging in to your content dashboard</h2>
+
+<h3>Where to go</h3>
+
+<p>Open your browser and visit:</p>
+
+<p class="center" style="margin: 1.2em 0;"><code style="font-size: 12.5pt; padding: 6px 12px; background: #faf6ee; border-color: #e8d8b9;">https://planet-canopy.sanity.studio</code></p>
+
+<div class="note">
+  <strong>The actual URL above will be confirmed by your developer once the dashboard is deployed.</strong>
+  Bookmark this URL — you'll be visiting it often.
+</div>
+
+<h3>How to sign in</h3>
+
+<ol class="steps">
+  <li>Open the URL above. You'll see a sign-in screen.</li>
+  <li>Click <strong>Continue with Google</strong>.</li>
+  <li>Choose your <strong>theplanetcanopy1@gmail.com</strong> account. (If you're not already signed in to Google, you'll be asked for the password — use the same one you use for that Gmail account.)</li>
+  <li>Click <strong>Allow</strong> when Google asks for permission.</li>
+  <li>You'll land on the dashboard.</li>
+</ol>
+
+<div class="tip">
+  <strong>Tip — staying logged in</strong>
+  Once signed in, you'll usually stay signed in for several weeks on the same browser. You only need to repeat the sign-in if you log out, switch browsers, or use Incognito mode.
+</div>
+
+<h3>If sign-in fails</h3>
+
+<ul>
+  <li><strong>"You don't have access to this project"</strong> — your access hasn't been activated yet, or you're using the wrong Google account. Make sure you're signed into Google with <strong>theplanetcanopy1@gmail.com</strong>, then try again. If still failing, contact your developer.</li>
+  <li><strong>Page won't load</strong> — try a different browser (Chrome, Safari, Firefox, Edge all work). Disable any aggressive ad-blockers or VPN.</li>
+</ul>
+
+<!-- ============================================================== -->
+<!-- 4. DASHBOARD AT A GLANCE                                        -->
+<!-- ============================================================== -->
+<h2>4. The dashboard at a glance</h2>
+
+<p>Once signed in, the dashboard is divided into three vertical panels. Here's what each one does:</p>
+
+<table>
+  <thead>
+    <tr><th style="width:22%">Panel</th><th>What it shows</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Left rail<br>(Document types)</strong></td>
+      <td>A short list of <em>kinds</em> of content. The two you'll use are <strong>Journey</strong> (your safari tours) and <strong>Enquiry</strong> (incoming customer messages). The other items — Post, Author, Category — are placeholders for a future blog feature; you can ignore them.</td>
+    </tr>
+    <tr>
+      <td><strong>Middle column<br>(List view)</strong></td>
+      <td>When you click a document type on the left, the middle column lists every existing item of that type. Click any item to open it.</td>
+    </tr>
+    <tr>
+      <td><strong>Right pane<br>(Editor)</strong></td>
+      <td>The actual form where you fill in fields, upload images, and click <strong>Publish</strong> when done.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Buttons you'll see often</h3>
+
+<table>
+  <thead>
+    <tr><th style="width:25%">Button</th><th>What it does</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>+ Create</strong></td><td>Add a brand-new item (a new Journey, for example). Found at the top right of the middle column.</td></tr>
+    <tr><td><strong>Publish</strong></td><td>Save your changes and make them live on the website. Found at the top right of the editor pane.</td></tr>
+    <tr><td><strong>⋯ (three dots)</strong></td><td>A menu with extras: Delete, Duplicate, Discard changes, etc.</td></tr>
+    <tr><td><strong>Clock icon (History)</strong></td><td>See every previous version of this document. You can restore an older version anytime.</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">
+  <strong>Auto-save</strong>
+  As you type, your changes are automatically saved as a <em>draft</em>. You won't lose work if your computer crashes. The website itself only updates when you click <strong>Publish</strong>.
+</div>
+
+<!-- ============================================================== -->
+<!-- 5. JOURNEYS                                                     -->
+<!-- ============================================================== -->
+<h2>5. Managing your safari tours (Journeys)</h2>
+
+<p>The <strong>Journey</strong> document type controls every safari shown on your homepage. Each Journey is one tour package (e.g., "Ranthambore National Park").</p>
+
+<h3>The fields you'll fill in</h3>
+
+<table>
+  <thead>
+    <tr><th style="width:23%">Field</th><th style="width:14%">Required?</th><th>What to enter</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Title</strong></td><td>Yes</td><td>The park name, exactly as you want it displayed. Example: <em>Jim Corbett National Park</em>.</td></tr>
+    <tr><td><strong>Slug</strong></td><td>Yes</td><td>The URL-friendly version. Click <strong>Generate</strong> next to the field — it auto-creates from the Title. Don't edit by hand.</td></tr>
+    <tr><td><strong>Location</strong></td><td>Yes</td><td>State or region. Example: <em>Uttarakhand</em>.</td></tr>
+    <tr><td><strong>Duration</strong></td><td>No</td><td>Optional. Example: <em>3 Days / 2 Nights</em>.</td></tr>
+    <tr><td><strong>Availability</strong></td><td>No</td><td>When the park is open. Example: <em>Available Year Round</em> or <em>Oct – Jun</em>.</td></tr>
+    <tr><td><strong>Image</strong></td><td>Yes</td><td>The hero photograph shown on the card. Drag-drop a photo, or click to upload. (See section 7 for image tips.)</td></tr>
+    <tr><td><strong>Short description</strong></td><td>Yes</td><td>1–2 sentences shown on the card. Example: <em>"Experience the royal Bengal tiger in its natural habitat across India's oldest national park."</em></td></tr>
+    <tr><td><strong>Price</strong></td><td>No</td><td>How you want pricing shown. Example: <em>₹24,999</em> or <em>Starting from ₹18,000/person</em>.</td></tr>
+    <tr><td><strong>Highlights</strong></td><td>No</td><td>Bullet points shown on the card. Type each highlight, press Enter, type the next. Example: <em>Tiger Safari, Bird Watching, Elephant Ride</em>.</td></tr>
+    <tr><td><strong>Display order</strong></td><td>No</td><td>A number that controls the order on the homepage. Lower numbers appear first. Suggestion: use 10, 20, 30, 40 — that way you can squeeze a new entry in between (e.g., 25) without renumbering.</td></tr>
+  </tbody>
+</table>
+
+<h3>How to add a new Journey</h3>
+
+<ol class="steps">
+  <li>In the dashboard, left rail → click <strong>Journey</strong>.</li>
+  <li>Top right of the middle column → click <strong>+ Create</strong>.</li>
+  <li>Fill in the fields. The required ones (marked with a red asterisk) must be completed for you to publish.</li>
+  <li>For the image: drag a photo into the image field, or click the field and select <strong>Upload</strong>. After it uploads, click the image to <strong>Edit hotspot</strong> — drag the dot to the focal point of the photo (the animal's face, for example).</li>
+  <li>Top right of the editor → click <strong>Publish</strong>.</li>
+  <li>Wait about a minute, then refresh your website. The new Journey will appear in the homepage gallery.</li>
+</ol>
+
+<h3>How to edit an existing Journey</h3>
+
+<ol class="steps">
+  <li>Left rail → <strong>Journey</strong>.</li>
+  <li>Middle column → click the park you want to edit.</li>
+  <li>Make your changes — update the price, swap the image, change the description, whatever.</li>
+  <li>Click <strong>Publish</strong>.</li>
+  <li>Refresh your website after a minute. Your edits are live.</li>
+</ol>
+
+<div class="note">
+  <strong>What happens between save and publish?</strong>
+  As you type, your changes save automatically as a <em>draft</em>. Drafts are private — only visible to you in the dashboard. Once you click Publish, the change becomes the live version of that Journey, visible on the public website.
+</div>
+
+<h3>How to delete a Journey</h3>
+
+<ol class="steps">
+  <li>Open the Journey you want to remove.</li>
+  <li>Top right of the editor → click the <strong>⋯</strong> menu.</li>
+  <li>Choose <strong>Delete</strong>.</li>
+  <li>Confirm in the dialog.</li>
+  <li>The Journey vanishes from your homepage within a minute.</li>
+</ol>
+
+<div class="tip">
+  <strong>Don't worry about mistakes</strong>
+  Deleted documents are recoverable from the <strong>Recovery</strong> section in the sidebar for about 30 days. If you delete by accident, go there and restore it.
+</div>
+
+<h3>How to reorder which Journey appears first</h3>
+
+<p>The <strong>Display order</strong> field on each Journey controls the homepage sequence. Lower numbers appear earlier.</p>
+
+<p>Example: if you currently have:</p>
+
+<table>
+  <thead><tr><th>Journey</th><th>Display order</th></tr></thead>
+  <tbody>
+    <tr><td>Ranthambore</td><td>10</td></tr>
+    <tr><td>Jim Corbett</td><td>20</td></tr>
+    <tr><td>Kaziranga</td><td>30</td></tr>
+  </tbody>
+</table>
+
+<p>…and you want Kaziranga first, change its display order to <strong>5</strong> (or any number lower than 10). Click Publish. Within a minute the homepage reorders.</p>
+
+<!-- ============================================================== -->
+<!-- 6. ENQUIRIES                                                    -->
+<!-- ============================================================== -->
+<h2>6. Handling customer enquiries</h2>
+
+<h3>How enquiries arrive</h3>
+
+<p>When a customer fills the booking form on your website, two things happen automatically:</p>
+
+<ol>
+  <li>An email lands in <strong>theplanetcanopy1@gmail.com</strong> within seconds, with the customer's full details.</li>
+  <li>A new <strong>Enquiry</strong> document appears in your dashboard, where you can track the follow-up.</li>
+</ol>
+
+<p>You don't <em>create</em> enquiries — they're created by your customers via the website. Your job is to <em>respond</em> to them and track their status.</p>
+
+<h3>The enquiry workflow</h3>
+
+<p>Every new enquiry starts with status <strong>NEW</strong>. As you follow up, you change the status:</p>
+
+<table>
+  <thead><tr><th style="width:18%">Status</th><th>Meaning</th><th style="width:30%">When to set it</th></tr></thead>
+  <tbody>
+    <tr><td><strong>New</strong></td><td>Just received, no action taken yet.</td><td>Default for fresh enquiries.</td></tr>
+    <tr><td><strong>Contacted</strong></td><td>You've reached out to the customer.</td><td>After you call/email/WhatsApp them.</td></tr>
+    <tr><td><strong>Booked</strong></td><td>They've confirmed their safari.</td><td>Once a booking is finalised.</td></tr>
+    <tr><td><strong>Closed</strong></td><td>No booking — lost or unresponsive.</td><td>If they don't respond after follow-ups, or decide not to book.</td></tr>
+  </tbody>
+</table>
+
+<h3>Step-by-step: handling a new enquiry</h3>
+
+<ol class="steps">
+  <li>You receive the email notification at <strong>theplanetcanopy1@gmail.com</strong> with the customer's details.</li>
+  <li>Open your dashboard → left rail → <strong>Enquiry</strong>. The new entry is at the top of the list.</li>
+  <li>Open it. Read their message.</li>
+  <li>Contact the customer using the email or phone number listed (or simply hit <strong>Reply</strong> on the email — it goes straight to them).</li>
+  <li>After contact, return to the enquiry → change <strong>Status</strong> from <em>New</em> to <em>Contacted</em>.</li>
+  <li>In the <strong>Internal notes</strong> field, write what was discussed. Example: <em>"Spoke to Priya 12 May. Group of 4, prefers premium tents. Following up Wednesday with quote."</em></li>
+  <li>Click <strong>Publish</strong> to save your update.</li>
+  <li>When the customer eventually books (or declines), update Status one more time to <em>Booked</em> or <em>Closed</em> and Publish.</li>
+</ol>
+
+<h3>Fields on an enquiry</h3>
+
+<table>
+  <thead><tr><th style="width:25%">Field</th><th>Editable?</th><th>What it's for</th></tr></thead>
+  <tbody>
+    <tr><td>Full name</td><td>Yes (only to fix typos)</td><td>The customer's name as they entered it.</td></tr>
+    <tr><td>Email</td><td>Yes (only to fix typos)</td><td>Their reply-to address.</td></tr>
+    <tr><td>Phone</td><td>Yes (only to fix typos)</td><td>For calls or WhatsApp.</td></tr>
+    <tr><td>Preferred park</td><td>No</td><td>What the customer selected.</td></tr>
+    <tr><td>Preferred date</td><td>No</td><td>What they want.</td></tr>
+    <tr><td>Guests</td><td>No</td><td>Party size.</td></tr>
+    <tr><td>Message</td><td>No</td><td>Anything additional they wrote.</td></tr>
+    <tr><td>Submitted at</td><td>No (read-only)</td><td>When the form was submitted, automatically.</td></tr>
+    <tr><td><strong>Status</strong></td><td><strong>YES — your main workflow field</strong></td><td>Track follow-up progress.</td></tr>
+    <tr><td><strong>Internal notes</strong></td><td><strong>YES</strong></td><td>Private notes about your conversations. Customers never see this.</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <strong>Don't delete enquiries — even closed ones</strong>
+  Old enquiries are valuable. They show you which parks attract the most interest, what time of year people enquire, and patterns that help you market better. Use the <em>Closed</em> status instead of deleting.<br><br>
+  The only exception: if an enquiry is clearly spam (gibberish, irrelevant content), you can delete it from the <strong>⋯</strong> menu.
+</div>
+
+<!-- ============================================================== -->
+<!-- 7. IMAGES                                                       -->
+<!-- ============================================================== -->
+<h2>7. Adding &amp; cropping images</h2>
+
+<h3>What types of images work</h3>
+
+<ul>
+  <li><strong>Format</strong>: JPEG (.jpg / .jpeg) or PNG. JPEG is preferred for photographs.</li>
+  <li><strong>Size</strong>: anywhere from 1200 to 4000 pixels wide is ideal. Don't worry about exact dimensions — the system optimises automatically.</li>
+  <li><strong>Aspect ratio</strong>: landscape (wider than tall) generally looks best for tour cards.</li>
+  <li><strong>File size</strong>: anything under 10 MB uploads smoothly.</li>
+</ul>
+
+<h3>Uploading an image</h3>
+
+<ol class="steps">
+  <li>In any document with an image field (like a Journey), click the empty image area or drag a file directly onto it.</li>
+  <li>If you click, you'll see options: <strong>Upload</strong> (your computer), <strong>Select</strong> (already-uploaded images in your library), or paste a URL.</li>
+  <li>Wait a few seconds while it uploads.</li>
+</ol>
+
+<h3>Setting the focal point (the "hotspot")</h3>
+
+<p>Different parts of your website show your image at different sizes — small on phones, large on desktops, square on cards, wide on detail pages. The <em>hotspot</em> tells the system which part of the image is the most important so it never accidentally crops out the main subject.</p>
+
+<ol class="steps">
+  <li>Click the uploaded image in the editor.</li>
+  <li>Click <strong>Edit hotspot</strong>.</li>
+  <li>Drag the round dot to the focal point — usually the animal's face or eyes for wildlife photos.</li>
+  <li>Optionally: drag the corners of the rectangle to set the "safe area" that should always be visible.</li>
+  <li>Click outside the image to confirm.</li>
+</ol>
+
+<div class="tip">
+  <strong>Why this matters</strong>
+  Without a hotspot, the system defaults to the centre of the image. If your tiger is on the left side of the photo, on small screens (phones) the website might crop the image to show empty grass and miss the tiger. Set the hotspot once and forget.
+</div>
+
+<h3>Replacing or removing an image</h3>
+
+<ul>
+  <li>To <strong>swap</strong> for a different image: click the image → top of the panel → <strong>Replace</strong>.</li>
+  <li>To <strong>remove</strong> entirely: click the image → <strong>Remove</strong>. (The file stays in the asset library — you can re-link it later if needed.)</li>
+</ul>
+
+<!-- ============================================================== -->
+<!-- 8. EMAIL                                                        -->
+<!-- ============================================================== -->
+<h2>8. Email notifications</h2>
+
+<h3>What you'll receive and when</h3>
+
+<p>Every customer enquiry triggers an email to <strong>theplanetcanopy1@gmail.com</strong> within seconds of submission. The subject looks like:</p>
+
+<p class="center"><code>New enquiry from [Customer Name] — [Preferred Park]</code></p>
+
+<p>The email body shows everything the customer entered, formatted as a neat table:</p>
+
+<ul>
+  <li>Their name, email, phone</li>
+  <li>The park they're interested in</li>
+  <li>Their preferred dates and party size</li>
+  <li>Any message or special requests</li>
+  <li>Time the enquiry was submitted</li>
+</ul>
+
+<div class="tip">
+  <strong>Reply to the email and it goes straight to the customer</strong>
+  The notification email's <em>Reply-To</em> is set to the customer's address. Just hit <strong>Reply</strong> in Gmail and your message goes to them directly. No copying email addresses around.
+</div>
+
+<h3>Where to look if an enquiry email doesn't arrive</h3>
+
+<ol>
+  <li><strong>Spam folder</strong> in Gmail. The first few enquiries from a new sender sometimes land there. Mark one "Not spam" and Gmail learns.</li>
+  <li><strong>Sanity dashboard</strong> → Enquiry tab. Even if the email is delayed or misrouted, the document is always created here. You'll never lose an enquiry.</li>
+</ol>
+
+<!-- ============================================================== -->
+<!-- 9. CAREFUL                                                      -->
+<!-- ============================================================== -->
+<h2>9. Things to be careful about</h2>
+
+<table>
+  <thead>
+    <tr><th style="width:42%">Avoid this</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bulk-deleting enquiries</td><td>You lose your historical record of customer interest. Use status <em>Closed</em> instead.</td></tr>
+    <tr><td>Sharing your password or API tokens</td><td>Anyone with these can edit, delete, or read all your customer data. Treat them like banking credentials.</td></tr>
+    <tr><td>Editing the slug field by hand</td><td>Slugs power URLs. Changing them breaks shared links. Always use the <strong>Generate</strong> button next to the field.</td></tr>
+    <tr><td>Marking the same image as required for multiple Journeys without setting hotspots</td><td>The same photo will look different on different cards. Set a hotspot per usage.</td></tr>
+    <tr><td>Posting placeholder text and forgetting to fill it later</td><td>"Lorem ipsum" or test content can ship to your live website by accident. Always fill real content before clicking Publish.</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <strong>If you ever click Publish and something looks wrong on the website</strong>
+  Don't panic. Open the document → click the <strong>clock icon</strong> (History) → find the previous good version → click <strong>Restore</strong> → click <strong>Publish</strong>. The website reverts within a minute. Every change you've ever made is recorded.
+</div>
+
+<!-- ============================================================== -->
+<!-- 10. TROUBLESHOOTING                                             -->
+<!-- ============================================================== -->
+<h2>10. Troubleshooting</h2>
+
+<h3>"My change isn't showing on the website"</h3>
+
+<ol>
+  <li>Did you click <strong>Publish</strong>? Saving as a draft doesn't update the website. Look at the editor's top-right — the button must be greyed out / "Published" after you click.</li>
+  <li>Wait <strong>at least 1 full minute</strong>, then hard-refresh the website (Cmd+Shift+R on Mac, Ctrl+F5 on Windows).</li>
+  <li>If still not visible after 2 minutes, check the document for any red validation errors — they prevent publish.</li>
+</ol>
+
+<h3>"I can't click Publish — it's greyed out"</h3>
+
+<ul>
+  <li>One or more required fields are empty or invalid. Scroll up and look for red asterisks or red error messages next to fields. Fix them and Publish becomes clickable.</li>
+</ul>
+
+<h3>"The dashboard won't load / loading forever"</h3>
+
+<ul>
+  <li>Try a different browser (Chrome, Safari, Firefox).</li>
+  <li>Disable VPN or aggressive ad-blocker temporarily.</li>
+  <li>Sign out and back in.</li>
+  <li>If it persists, contact your developer.</li>
+</ul>
+
+<h3>"I uploaded an image and it looks rotated / sideways"</h3>
+
+<ul>
+  <li>The system reads the photo's built-in rotation tag. If it's wrong (rare, usually iPhone exports), open the photo in Apple Photos or Google Photos, rotate it correctly, save, and re-upload.</li>
+</ul>
+
+<h3>"I deleted something by mistake"</h3>
+
+<ul>
+  <li>Sidebar → <strong>Recovery</strong> → find the document → restore. Available for ~30 days after deletion.</li>
+</ul>
+
+<!-- ============================================================== -->
+<!-- 11. WHEN TO CALL DEV                                            -->
+<!-- ============================================================== -->
+<h2>11. When to call your developer</h2>
+
+<p>Most of the time, you won't need to. But here are the situations where you should reach out:</p>
+
+<table>
+  <thead><tr><th style="width:50%">Situation</th><th>Who to call</th></tr></thead>
+  <tbody>
+    <tr><td>Website is completely down or showing an error page</td><td>Developer immediately</td></tr>
+    <tr><td>Booking form on the website doesn't submit (customers can't reach you)</td><td>Developer immediately</td></tr>
+    <tr><td>You can't sign in to the dashboard at all</td><td>Developer</td></tr>
+    <tr><td>You want a new section added to the website (blog, gallery, contact page changes)</td><td>Developer (this is paid maintenance work)</td></tr>
+    <tr><td>You want to change the visual design — colours, fonts, layout</td><td>Developer (paid work)</td></tr>
+    <tr><td>You want to add a brand-new content type (e.g., "Testimonials", "Team Members")</td><td>Developer (paid work)</td></tr>
+    <tr><td>You see suspicious enquiries you suspect are bot spam</td><td>Developer if it's a flood; for one or two, just delete them</td></tr>
+    <tr><td>Email notifications stop arriving for several enquiries in a row</td><td>Developer</td></tr>
+  </tbody>
+</table>
+
+<p>Day-to-day content management — adding tours, editing prices, handling enquiries, changing photos — is entirely yours. No developer involvement needed.</p>
+
+<div class="note" style="margin-top: 2em;">
+  <strong>Welcome to the driver's seat</strong>
+  Your website now belongs entirely to you. Take a few minutes to log in, click around, and try editing a Journey or two. The dashboard is friendlier than it looks, and you can't break anything important — every change is reversible.
+</div>
+
+<p style="margin-top: 3em; color: #94a3b8; font-size: 9pt;" class="center">
+  — End of guide —
+</p>
+
+</body>
+</html>

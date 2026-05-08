@@ -4,5 +4,6 @@ import author from './author';
 import category from './category';
 import blockContent from './blockContent';
 import enquiry from './enquiry';
+import galleryPhoto from './galleryPhoto';
 
-export const schemaTypes = [journey, post, author, category, blockContent, enquiry];
+export const schemaTypes = [journey, post, author, category, blockContent, enquiry, galleryPhoto];

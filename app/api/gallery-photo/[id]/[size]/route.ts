@@ -19,18 +19,26 @@ const WATERMARK_OPACITY = 0.35
 const WATERMARK_ROTATION = -30
 
 function buildTiledWatermark(width: number, height: number): Buffer {
+  // Vercel's serverless image (librsvg) has limited SVG support — no
+  // feDropShadow, no custom font lookups. We use only:
+  //   - generic font-family "sans-serif"
+  //   - stroke as a faux-shadow for legibility on bright/dark photos
+  // and skip filters entirely.
   const fontSize = Math.max(22, Math.round(width / 36))
   const stepX = Math.round(fontSize * 13)
   const stepY = Math.round(fontSize * 4.5)
   const overflow = Math.max(width, height)
+  const strokeWidth = Math.max(1, Math.round(fontSize / 18))
   const texts: string[] = []
   for (let y = -overflow; y < height + overflow; y += stepY) {
     const rowOffset = Math.round(((y / stepY) % 2) * (stepX / 2))
     for (let x = -overflow + rowOffset; x < width + overflow; x += stepX) {
       texts.push(
-        `<text x="${x}" y="${y}" font-family='Georgia, "Cormorant Garamond", serif' ` +
-          `font-size="${fontSize}" font-weight="500" fill="white" ` +
-          `fill-opacity="${WATERMARK_OPACITY}" ` +
+        `<text x="${x}" y="${y}" font-family="sans-serif" ` +
+          `font-size="${fontSize}" font-weight="600" ` +
+          `fill="white" fill-opacity="${WATERMARK_OPACITY}" ` +
+          `stroke="black" stroke-opacity="0.45" stroke-width="${strokeWidth}" ` +
+          `paint-order="stroke fill" ` +
           `letter-spacing="${Math.round(fontSize / 12)}" ` +
           `transform="rotate(${WATERMARK_ROTATION} ${x} ${y})">${WATERMARK_TEXT}</text>`,
       )
@@ -38,13 +46,7 @@ function buildTiledWatermark(width: number, height: number): Buffer {
   }
   return Buffer.from(
     `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">` +
-      `<defs>
-        <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1" stdDeviation="1.5"
-                        flood-color="#000" flood-opacity="0.55"/>
-        </filter>
-      </defs>` +
-      `<g filter="url(#s)">${texts.join("")}</g>` +
+      texts.join("") +
       `</svg>`,
   )
 }

@@ -112,13 +112,13 @@ export function BookingSection() {
 
             {/* Contact Info */}
             <div className="mt-12 pt-12 border-t border-primary-foreground/20 space-y-4">
-              <a href="tel:+919876543210" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <a href="tel:+918591893248" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 <Phone className="w-5 h-5" />
-                <span className="font-[var(--font-outfit)]">+91 98765 43210</span>
+                <span className="font-[var(--font-outfit)]">+91 85918 93248</span>
               </a>
-              <a href="mailto:hello@planetcanopy.com" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <a href="mailto:theplanetcanopy1@gmail.com" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 <Mail className="w-5 h-5" />
-                <span className="font-[var(--font-outfit)]">hello@planetcanopy.com</span>
+                <span className="font-[var(--font-outfit)]">theplanetcanopy1@gmail.com</span>
               </a>
             </div>
           </motion.div>

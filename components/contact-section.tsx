@@ -132,19 +132,19 @@ export function ContactSection() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary-foreground/60 flex-shrink-0 mt-0.5" />
                 <span className="text-primary-foreground/70 font-[var(--font-outfit)]">
-                  123 Safari Lane, Connaught Place,<br />New Delhi 110001, India
+                  704 Vaikuntha Dham, Goregaon West,<br />Mumbai, Maharashtra 400104
                 </span>
               </li>
               <li>
-                <a href="tel:+919876543210" className="flex items-center gap-3 text-primary-foreground/70 font-[var(--font-outfit)] hover:text-primary-foreground transition-colors">
+                <a href="tel:+918591893248" className="flex items-center gap-3 text-primary-foreground/70 font-[var(--font-outfit)] hover:text-primary-foreground transition-colors">
                   <Phone className="w-5 h-5 text-primary-foreground/60" />
-                  +91 98765 43210
+                  +91 85918 93248
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@planetcanopy.com" className="flex items-center gap-3 text-primary-foreground/70 font-[var(--font-outfit)] hover:text-primary-foreground transition-colors">
+                <a href="mailto:theplanetcanopy1@gmail.com" className="flex items-center gap-3 text-primary-foreground/70 font-[var(--font-outfit)] hover:text-primary-foreground transition-colors">
                   <Mail className="w-5 h-5 text-primary-foreground/60" />
-                  hello@planetcanopy.com
+                  theplanetcanopy1@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">

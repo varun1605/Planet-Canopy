@@ -6,26 +6,32 @@ import { useRef } from "react"
 import Image from "next/image"
 import { Instagram, Linkedin, Award, Heart, Globe } from "lucide-react"
 
-const founders = [
+export type Founder = {
+  id: string
+  name: string
+  role: string
+  image: string
+  bio: string
+  instagram?: string
+  linkedin?: string
+}
+
+// Fallback used when Sanity has no founder documents yet (or is unreachable).
+// Lets the page render gracefully before the client adds their real founders.
+const FALLBACK_FOUNDERS: Founder[] = [
   {
+    id: "fallback-1",
     name: "Arjun Sharma",
     role: "Co-Founder & Safari Expert",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
     bio: "With over 15 years of wildlife photography and safari expertise, Arjun has led expeditions across every major national park in India.",
-    social: {
-      instagram: "#",
-      linkedin: "#",
-    },
   },
   {
+    id: "fallback-2",
     name: "Priya Menon",
     role: "Co-Founder & Conservation Lead",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
     bio: "A wildlife biologist turned entrepreneur, Priya ensures every safari contributes to local conservation efforts and community development.",
-    social: {
-      instagram: "#",
-      linkedin: "#",
-    },
   },
 ]
 
@@ -47,9 +53,10 @@ const values = [
   },
 ]
 
-export function AboutSection() {
+export function AboutSection({ founders }: { founders?: Founder[] }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const list = founders && founders.length > 0 ? founders : FALLBACK_FOUNDERS
 
   return (
     <section id="about" className="py-24 sm:py-32 bg-secondary" ref={ref}>
@@ -68,16 +75,16 @@ export function AboutSection() {
             Meet the Founders
           </h2>
           <p className="max-w-3xl mx-auto text-muted-foreground font-[var(--font-outfit)] font-light text-lg leading-relaxed">
-            Planet Canopy was born from a shared passion for wildlife and a dream to make India&apos;s 
+            Planet Canopy was born from a shared passion for wildlife and a dream to make India&apos;s
             incredible biodiversity accessible to nature lovers worldwide.
           </p>
         </motion.div>
 
         {/* Founders */}
         <div className="grid md:grid-cols-2 gap-12 mb-24">
-          {founders.map((founder, index) => (
+          {list.map((founder, index) => (
             <motion.div
-              key={founder.name}
+              key={founder.id}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -88,6 +95,7 @@ export function AboutSection() {
                   src={founder.image}
                   alt={founder.name}
                   fill
+                  sizes="(max-width: 640px) 100vw, 192px"
                   className="object-cover"
                 />
               </div>
@@ -99,22 +107,32 @@ export function AboutSection() {
                 <p className="text-muted-foreground font-[var(--font-outfit)] font-light leading-relaxed mb-6">
                   {founder.bio}
                 </p>
-                <div className="flex gap-4">
-                  <a
-                    href={founder.social.instagram}
-                    className="p-2 border border-border rounded-sm text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-                    aria-label={`${founder.name}'s Instagram`}
-                  >
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a
-                    href={founder.social.linkedin}
-                    className="p-2 border border-border rounded-sm text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
-                    aria-label={`${founder.name}'s LinkedIn`}
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                </div>
+                {(founder.instagram || founder.linkedin) && (
+                  <div className="flex gap-4">
+                    {founder.instagram && (
+                      <a
+                        href={founder.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 border border-border rounded-sm text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+                        aria-label={`${founder.name}'s Instagram`}
+                      >
+                        <Instagram className="w-5 h-5" />
+                      </a>
+                    )}
+                    {founder.linkedin && (
+                      <a
+                        href={founder.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 border border-border rounded-sm text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+                        aria-label={`${founder.name}'s LinkedIn`}
+                      >
+                        <Linkedin className="w-5 h-5" />
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -132,7 +150,7 @@ export function AboutSection() {
               Our Mission
             </p>
             <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-light leading-relaxed italic">
-              &ldquo;To create transformative wildlife experiences that inspire conservation, 
+              &ldquo;To create transformative wildlife experiences that inspire conservation,
               support local communities, and awaken a deep connection with nature.&rdquo;
             </blockquote>
           </div>

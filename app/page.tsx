@@ -4,6 +4,7 @@ import { JourneysSection, type Journey } from "@/components/journeys-section"
 import { GallerySection, type GalleryPhoto } from "@/components/gallery-section"
 import { AboutSection, type Founder } from "@/components/about-section"
 import { ReviewsSection, type Review } from "@/components/reviews-section"
+import { SightingsSection, type Sighting } from "@/components/sightings-section"
 import { BookingSection } from "@/components/booking-section"
 import { ContactSection } from "@/components/contact-section"
 import { sanityClient, urlFor } from "@/lib/sanity"
@@ -46,6 +47,20 @@ const REVIEWS_QUERY = `*[_type == "review" && approved == true] | order(submitte
   journey,
   review,
   submittedAt
+}`
+
+// Only approved sightings are surfaced. Sorted by most-recent sighting first.
+// Show up to 8 on the homepage.
+const SIGHTINGS_QUERY = `*[_type == "sighting" && approved == true] | order(sightedAt desc, _createdAt desc)[0..7]{
+  _id,
+  park,
+  zone,
+  species,
+  individual,
+  description,
+  sightedAt,
+  reportedBy,
+  image
 }`
 
 export const revalidate = 60
@@ -156,12 +171,44 @@ async function getReviews(): Promise<Review[] | undefined> {
   }
 }
 
+async function getSightings(): Promise<Sighting[] | undefined> {
+  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return undefined
+  try {
+    const docs = await sanityClient.fetch<Array<{
+      _id: string
+      park: string
+      zone?: string
+      species: string
+      individual?: string
+      description: string
+      sightedAt: string
+      reportedBy?: string
+      image?: unknown
+    }>>(SIGHTINGS_QUERY)
+    if (!docs || docs.length === 0) return undefined
+    return docs.map((d) => ({
+      id: d._id,
+      park: d.park,
+      zone: d.zone,
+      species: d.species,
+      individual: d.individual,
+      description: d.description,
+      sightedAt: d.sightedAt,
+      reportedBy: d.reportedBy,
+      imageUrl: d.image ? urlFor(d.image as never).width(900).url() : undefined,
+    }))
+  } catch {
+    return undefined
+  }
+}
+
 export default async function Home() {
-  const [journeys, galleryPhotos, founders, reviews] = await Promise.all([
+  const [journeys, galleryPhotos, founders, reviews, sightings] = await Promise.all([
     getJourneys(),
     getGalleryPhotos(),
     getFounders(),
     getReviews(),
+    getSightings(),
   ])
 
   return (
@@ -169,6 +216,7 @@ export default async function Home() {
       <Navigation />
       <HeroSection />
       <JourneysSection journeys={journeys} />
+      <SightingsSection sightings={sightings} />
       <GallerySection photos={galleryPhotos} />
       <AboutSection founders={founders} />
       <ReviewsSection reviews={reviews} />
